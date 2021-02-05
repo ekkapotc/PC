@@ -14,7 +14,7 @@ void * calculate(void * arg)
     std::size_t tid =   reinterpret_cast<std::size_t>(arg);
     unsigned int seedVal = tid;
     double * totalHits   = new double();
-    long samplePoints = NUMITERATIONS / NUMTHREADS;
+    std::size_t samplePoints = NUMITERATIONS / NUMTHREADS;
     
     *totalHits = 0;
   
@@ -29,12 +29,10 @@ void * calculate(void * arg)
         }
     }
    
-    if(!tid)
-    {
+    if(!tid){
         std::size_t remainder = NUMITERATIONS % NUMTHREADS;
       
-        for(std::size_t i=0 ; i<remainder ; i++)
-        {
+        for(std::size_t i=0 ; i<remainder ; i++){
             double  x = (double) rand_r(&seedVal) / (double) RAND_MAX;
             double  y = (double) rand_r(&seedVal) / (double) RAND_MAX;
             double result = std::sqrt((x*x) + (y*y));
