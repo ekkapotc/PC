@@ -9,7 +9,6 @@
 
 #define NUMITERATIONS 1000000000   
 
-
 void * calculate(void * arg)
 {
     std::size_t tid =   reinterpret_cast<std::size_t>(arg);
@@ -54,12 +53,9 @@ int main(int argc, char * argv[])
     pthread_t tids[NUMTHREADS];
     double pi = 0.0;
     void * partialSol;
-    
     struct timespec startTime, endTime;
-
     
     clock_gettime(CLOCK_REALTIME, &startTime);
-   
    
     for(std::size_t i=0 ; i<NUMTHREADS ; i++)
     {
@@ -72,7 +68,6 @@ int main(int argc, char * argv[])
         pi +=  *static_cast<double*>(partialSol); 
         delete static_cast<double*>(partialSol);
     }
-    
     
     pi = 4.0*(pi/NUMITERATIONS);
     
