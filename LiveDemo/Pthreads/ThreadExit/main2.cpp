@@ -6,14 +6,14 @@
 
 void * start(void * arg){
   sleep(2);
-  int tid = *reinterpret_cast<int*>(arg);
+  int tid = *static_cast<int*>(arg);
   std::cout << "Thread :" << tid << std::endl;
   pthread_exit(arg);
 }
 
 int main(int argc , char ** argv){
-  int vals[4];
-  pthread_t tids[4];
+  int vals[NUMTHREADS];
+  pthread_t tids[NUMTHREADS];
   void *retval;
 
   for (auto i = 0; i < NUMTHREADS; i++) {
