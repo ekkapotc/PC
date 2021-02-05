@@ -11,7 +11,6 @@
 
 double localHits[NUMTHREADS];
 
-
 void * calculate(void * arg)
 {
     std::size_t tid =   reinterpret_cast<std::size_t>(arg);
@@ -54,14 +53,10 @@ int main(int argc, char * argv[])
 {
     pthread_t tids[NUMTHREADS];
     double pi = 0.0;
-    
-    
     struct timespec startTime, endTime;
-
     
     clock_gettime(CLOCK_REALTIME, &startTime);
-   
-   
+  
     for(std::size_t i=0 ; i<NUMTHREADS ; i++)
     {
         pthread_create(&tids[i], NULL, &calculate , reinterpret_cast<void*>(i));
@@ -72,7 +67,6 @@ int main(int argc, char * argv[])
         pthread_join(tids[i], NULL);
         pi += localHits[i];
     }
-    
     
     pi = 4.0*(pi/NUMITERATIONS);
     
