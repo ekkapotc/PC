@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     }
    
 
-    double runtime = omp_get_wtime() - wall_time;
+    wall_time = omp_get_wtime() - wall_time;
     
     double pi = 4.0*totalHits/totalCount;
    
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     std::cout << std::setprecision(6);
     
     std::cout << "The value of Pi is approximately " << pi << "." << std::endl;
-    std::cout << "The program took " << runtime << " sec." << std::endl;
+    std::cout << "The program took " << wall_time << " sec." << std::endl;
    
    return 0;
 }
