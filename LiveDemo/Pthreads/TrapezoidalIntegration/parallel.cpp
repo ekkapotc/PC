@@ -30,14 +30,12 @@ void * parallelIntTrap(void * args){
   long startIndex =  TID*n/NUM_THREADS;
   long endIndex  =   ((TID+1)*n/NUM_THREADS-1) <n ?  ((TID+1)*n/NUM_THREADS-1) : n-1;
   
-  //printf("TID %ld , start %ld , end %ld\n",TID, startIndex, endIndex);
-  
   double * localSum = new double();
   
-  if(TID==0){
+  if(TID==NUM_THREADS-1){
     *localSum -= (f(a)+f(b))/2.0;
   }
-
+  
   for(long i=startIndex;i<=endIndex;i++){
     *localSum += f(a+(i*h));
   }
@@ -61,6 +59,10 @@ int main(int argc,char**argv)
   std::cout << "Enter the Number of Trapezoids (n) :";
   std::cin >> n;
     
+  struct timespec startTime, endTime;
+
+  clock_gettime(CLOCK_REALTIME, &startTime);
+  
   //double h = (b-a)/n;
   pthread_t tids[NUM_THREADS];
   thrArgs_t args[NUM_THREADS];
@@ -88,7 +90,12 @@ int main(int argc,char**argv)
 
   pthread_mutex_destroy(&mutex);
   
+  clock_gettime(CLOCK_REALTIME, &endTime);
+    
+  double runtime = (endTime.tv_sec-startTime.tv_sec)+(endTime.tv_nsec-startTime.tv_nsec)/1e9;
+  
   std::cout << globalSum << std::endl;
+  std::cout << "The program took " << runtime << " sec." << std::endl;
 
   return 0;
 }
