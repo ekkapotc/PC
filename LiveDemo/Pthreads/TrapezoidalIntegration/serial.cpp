@@ -1,9 +1,9 @@
 #include <iostream>
-
+#include <iomanip>
 
 double f(double x)
 {
-  return x*x;
+  return 5.2*x*x+1.2*x+4.8;
 }
 
 double serialTrapInt(double a , double b , double h , long n)
@@ -27,7 +27,9 @@ int main(int argc , char ** argv){
     
     long n;
     double a,b;
-    
+
+    std::cout <<  std::setprecision(12);
+
     std::cout << "Enter the Lower Limit (a) :";
     std::cin >> a;
     std::cout << "Enter the Upper Limit (b) :";
