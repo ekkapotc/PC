@@ -49,11 +49,12 @@ void * parallelIntTrap(void * args){
   double * localSum = new double();
   
   if(TID==NUM_THREADS-1){
-    *localSum -= (f(a)+f(b))/2.0;
+    *localSum += (f(a)+f(b))/2.0;
+    *localSum -= f(a);
   }
   
   for(long i=startIndex;i<=endIndex;i++){
-    *localSum += f(a+(i*h));
+      *localSum += f(a+(i*h));
   }
   
   *localSum = (*localSum)*h;
