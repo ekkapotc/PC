@@ -5,6 +5,20 @@
 
 #define NUM_THREADS 4
 
+#define INIT_ARGS(a,b,n,TID) ({\
+                                args[TID].a = a;\
+                                args[TID].b = b;\
+                                args[TID].n = n;\
+                                args[TID].TID = TID;\
+                             })
+
+#define UNPACK_ARGS(a,b,n,TID)  ({\
+                                    a = info->a;\
+                                    b = info->b;\
+                                    n = info->n;\
+                                    TID = info->TID;\
+                                })
+                                    
 typedef struct thrArgs{
     double a;
     double b;
@@ -21,11 +35,12 @@ void * parallelIntTrap(void * args){
     
   thrArgs_t * info = static_cast<thrArgs_t*>(args);
   
-  long TID = info->TID;
-  long n = info->n;
-  double a = info->a;
-  double b = info->b;
-  double h = (b-a)/n;
+  long TID,n;
+  double a,b,h;
+  
+  UNPACK_ARGS(a,b,n,TID);
+
+  h = (b-a)/n;
   
   long startIndex =  TID*n/NUM_THREADS;
   long endIndex   =  ((TID+1)*n/NUM_THREADS-1);
@@ -34,11 +49,12 @@ void * parallelIntTrap(void * args){
   double * localSum = new double();
   
   if(TID==NUM_THREADS-1){
-    *localSum -= (f(a)+f(b))/2.0;
+    *localSum += (f(a)+f(b))/2.0;
+    *localSum -= f(a);
   }
   
   for(long i=startIndex;i<=endIndex;i++){
-    *localSum += f(a+(i*h));
+      *localSum += f(a+(i*h));
   }
   
   *localSum = (*localSum)*h;
@@ -72,10 +88,7 @@ int main(int argc,char**argv)
   pthread_mutex_init(&mutex, NULL);
   
   for( long TID=0; TID < NUM_THREADS; TID++ ){
-    args[TID].a = a;
-    args[TID].b = b;
-    args[TID].n = n;
-    args[TID].TID = TID;
+    INIT_ARGS(a,b,n,TID);
     pthread_create( &tids[TID],NULL,&parallelIntTrap, static_cast<void*>(&args[TID]) );
   }
 
