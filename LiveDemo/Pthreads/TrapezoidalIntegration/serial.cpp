@@ -43,12 +43,12 @@ int main(int argc , char ** argv){
     
     double h = (b-a)/n;
     
-    double integral = serialTrapInt(a,b,h,n);
+    double solution = serialTrapInt(a,b,h,n);
     
     clock_gettime(CLOCK_REALTIME, &endTime);
 
     double runtime = (endTime.tv_sec-startTime.tv_sec)+(endTime.tv_nsec-startTime.tv_nsec)/1e9;
-    std::cout << integral << std::endl;
+    std::cout << solution << std::endl;
     std::cout << "The program took " << runtime << " sec." << std::endl;
     
     return 0;
