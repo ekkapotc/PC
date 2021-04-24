@@ -19,7 +19,7 @@ double f(double x)
 
 void * parallelIntTrap(void * args){
     
-  thrArgs_t * info = (thrArgs_t*) args;
+  thrArgs_t * info = static_cast<thrArgs*>(args);
   
   long TID = info->TID;
   long n = info->n;
@@ -28,7 +28,8 @@ void * parallelIntTrap(void * args){
   double h = (b-a)/n;
   
   long startIndex =  TID*n/NUM_THREADS;
-  long endIndex  =   ((TID+1)*n/NUM_THREADS-1) <n ?  ((TID+1)*n/NUM_THREADS-1) : n-1;
+  long endIndex   =  ((TID+1)*n/NUM_THREADS-1);
+  endIndex  =   endIndex <n ?  endIndex : n-1;
   
   double * localSum = new double();
   
@@ -42,7 +43,7 @@ void * parallelIntTrap(void * args){
   
   *localSum = (*localSum)*h;
 
-  pthread_exit((void *)localSum);  
+  pthread_exit(static_cast<void*>(localSum));  
 }
 
 int main(int argc,char**argv)
@@ -76,7 +77,7 @@ int main(int argc,char**argv)
     args[TID].b = b;
     args[TID].n = n;
     args[TID].TID = TID;
-    pthread_create( &tids[TID],NULL,&parallelIntTrap, (void*)&args[TID] );
+    pthread_create( &tids[TID],NULL,&parallelIntTrap, static_cast<void*>(&args[TID]) );
   }
 
   void * localSum;
@@ -84,8 +85,8 @@ int main(int argc,char**argv)
   
   for(long TID=0;TID<NUM_THREADS;TID++){
     pthread_join(tids[TID],&localSum);
-    globalSum +=  *(double*)localSum; 
-    delete ((double*)localSum);
+    globalSum +=  *static_cast<double*>(localSum); 
+    delete (static_cast<double*>(localSum));
   }
 
   pthread_mutex_destroy(&mutex);
