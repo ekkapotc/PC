@@ -2,12 +2,6 @@
 #include <cstdlib>
 #include <mpi.h>
  
-/**
- * @brief Illustrates how to retrieve the number of elements in a message
- * received.
- * @details This application is meant to be run with 2 processes: a sender and
- * a receiver.
- **/
 enum role { SENDER, RECEIVER };
 
 int main(int argc, char* argv[])
