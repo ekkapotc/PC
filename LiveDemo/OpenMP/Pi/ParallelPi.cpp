@@ -5,7 +5,9 @@
 #include <iomanip>
 #include <omp.h>
 
+
 #define NUMITERATIONS 1000000000
+
 
 int main(int argc, char *argv[])
 {
@@ -13,20 +15,23 @@ int main(int argc, char *argv[])
     double totalHits = 0;
     unsigned int seedVal;
     
+    
     std::cout << "\tThe number of processors available      = " << omp_get_num_procs() << std::endl;
     std::cout << "\tThe number of threads available         = " << omp_get_max_threads() << std::endl;;
     std::cout << "\tThe number of Monte Carlo iterations    = " << totalCount << std::endl;
 
+    
     struct timespec startTime, endTime;
     clock_gettime(CLOCK_REALTIME, &startTime);
    
     #pragma omp parallel default(none) private(seedVal) reduction(+:totalHits) 
     {
         seedVal = omp_get_thread_num();//Each thread seeds with its own thread id.
-      
+        
         #pragma omp for 
         for(int i=0 ; i<NUMITERATIONS ; i++)
         {
+        
             double  x = (double) rand_r(&seedVal) / (double) RAND_MAX;
             double  y = (double) rand_r(&seedVal) / (double) RAND_MAX;
         
@@ -38,6 +43,7 @@ int main(int argc, char *argv[])
         }    
     }
    
+
     clock_gettime(CLOCK_REALTIME, &endTime);
 
     double runtime = (endTime.tv_sec-startTime.tv_sec)+(endTime.tv_nsec-startTime.tv_nsec)/1e9;

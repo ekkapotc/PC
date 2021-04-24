@@ -1,11 +1,13 @@
 #include <omp.h>
 #include <iostream>
 
-int main(int argc,char** argv){
+int main(int argc , char ** argv)
+{    
+    int i,n = 32;
+
+    /*--- The declaration of i could have been done inside the parallel region to avoid the need to explicitly declare i as private. ---*/
     
-    int i,n = 1024;
-    
-    #pragma omp parallel shared(n), private(i)
+    #pragma omp parallel default(none) shared(n,std::cout), private(i)
     {
         #pragma omp for
         for(i=0;i<n;i++)

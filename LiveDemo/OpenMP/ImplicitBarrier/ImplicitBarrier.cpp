@@ -6,8 +6,7 @@ int main(int argc,char ** argv){
     int i,n=128;
     double a[n],b[n];
     
-    
-    #pragma omp parlllel shared(n,a,b), private(i)
+    #pragma omp parlllel default(none) shared(n,a,b), private(i)
     {
         #pragma omp for
         for(i=0 ; i<n ; i++)

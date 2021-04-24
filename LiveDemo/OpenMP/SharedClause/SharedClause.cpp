@@ -10,13 +10,15 @@ int main(int argc,char** argv){
   for(int i=0; i<N;i++)
 	a[i] = static_cast<double>(i*i);
 
-  #pragma omp parallel for shared(a)
-  for(int i=0;i<N;i++)
+  #pragma omp parallel shared(a)
   {
+        #pragma omp for 
+        for(int i=0;i<N;i++)
+        {
+            a[i] += static_cast<double>(i);
       
-	a[i] += static_cast<double>(i);
-      
-  }/*--- End of parallel for ---*/
-
+        }/*--- End of parallel for ---*/
+  }
+  
   return 0;
 }

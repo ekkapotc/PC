@@ -4,7 +4,9 @@
 #include <iostream>
 #include <iomanip>
 
-#define NUMITERATIONS 1000000000
+
+#define NUMITERATIONS 1000000000  
+
 
 int main(int argc, char *argv[])
 {
@@ -23,7 +25,7 @@ int main(int argc, char *argv[])
       
         double result = std::sqrt((x*x) + (y*y));
       
-        if(result<.0){
+        if(result<1.0){
             totalHits += 1;         //check if the generated value is inside a unit circle
         }
       

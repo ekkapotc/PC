@@ -9,12 +9,13 @@
 
 #define NUMITERATIONS 1000000000   
 
+
 void * calculate(void * arg)
 {
     std::size_t tid =   reinterpret_cast<std::size_t>(arg);
     unsigned int seedVal = tid;
     double * totalHits   = new double();
-    std::size_t samplePoints = NUMITERATIONS / NUMTHREADS;
+    long samplePoints = NUMITERATIONS / NUMTHREADS;
     
     *totalHits = 0;
   
@@ -29,10 +30,12 @@ void * calculate(void * arg)
         }
     }
    
-    if(!tid){
+    if(!tid)
+    {
         std::size_t remainder = NUMITERATIONS % NUMTHREADS;
       
-        for(std::size_t i=0 ; i<remainder ; i++){
+        for(std::size_t i=0 ; i<remainder ; i++)
+        {
             double  x = (double) rand_r(&seedVal) / (double) RAND_MAX;
             double  y = (double) rand_r(&seedVal) / (double) RAND_MAX;
             double result = std::sqrt((x*x) + (y*y));
@@ -51,9 +54,12 @@ int main(int argc, char * argv[])
     pthread_t tids[NUMTHREADS];
     double pi = 0.0;
     void * partialSol;
+    
     struct timespec startTime, endTime;
+
     
     clock_gettime(CLOCK_REALTIME, &startTime);
+   
    
     for(std::size_t i=0 ; i<NUMTHREADS ; i++)
     {
@@ -66,6 +72,7 @@ int main(int argc, char * argv[])
         pi +=  *static_cast<double*>(partialSol); 
         delete static_cast<double*>(partialSol);
     }
+    
     
     pi = 4.0*(pi/NUMITERATIONS);
     

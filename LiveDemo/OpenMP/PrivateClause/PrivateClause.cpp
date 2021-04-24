@@ -14,7 +14,10 @@ int main(int argc,char ** argv){
         std::cout << "Thread " << tid << std::endl;
     
     }/*--- End of parallel region ---*/
-    
+
+    std::cout << "After the parallel region, tid = " << tid << std::endl;
+
+
     //The value of tid is undefined
     
     return 0;

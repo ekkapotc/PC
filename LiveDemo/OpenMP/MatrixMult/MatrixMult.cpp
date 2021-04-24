@@ -2,6 +2,8 @@
 #include <cmath>
 #include <iostream>
 
+
+
 int main(int argc,char** argv)
 {
     int n = 1024;
@@ -62,10 +64,13 @@ int main(int argc,char** argv)
         }
     }
 
+  
     wall_time = omp_get_wtime ( ) - wall_time;
 
     std::cout << "\tElapsed seconds =  " <<  wall_time << std::endl;
- 
+  
+
+    
     #pragma omp parallel for shared (a,b,c) schedule(dynamic)
     for(int i = 0; i < n; i++ )
     {
@@ -74,9 +79,10 @@ int main(int argc,char** argv)
         delete [] c[i];
     }
     
+    
     delete [] a;
     delete [] b;
     delete [] c;
-  
+    
     return 0;
 }
