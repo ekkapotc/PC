@@ -4,6 +4,7 @@
 #include <iomanip>
 
 #define NUM_THREADS 4
+
 #define INIT_ARGS(a,b,n,TID) ({\
                                 args[TID].a = a;\
                                 args[TID].b = b;\
@@ -11,6 +12,13 @@
                                 args[TID].TID = TID;\
                              })
 
+#define UNPACK_ARGS(a,b,n,TID)  ({\
+                                    a = info->a;\
+                                    b = info->b;\
+                                    n = info->n;\
+                                    TID = info->TID;\
+                                })
+                                    
 typedef struct thrArgs{
     double a;
     double b;
@@ -27,11 +35,12 @@ void * parallelIntTrap(void * args){
     
   thrArgs_t * info = static_cast<thrArgs_t*>(args);
   
-  long TID = info->TID;
-  long n = info->n;
-  double a = info->a;
-  double b = info->b;
-  double h = (b-a)/n;
+  long TID,n;
+  double a,b,h;
+  
+  UNPACK_ARGS(a,b,n,TID);
+
+  h = (b-a)/n;
   
   long startIndex =  TID*n/NUM_THREADS;
   long endIndex   =  ((TID+1)*n/NUM_THREADS-1);
