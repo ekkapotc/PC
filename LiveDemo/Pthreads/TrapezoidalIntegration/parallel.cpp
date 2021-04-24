@@ -64,7 +64,6 @@ int main(int argc,char**argv)
 
   clock_gettime(CLOCK_REALTIME, &startTime);
   
-  //double h = (b-a)/n;
   pthread_t tids[NUM_THREADS];
   thrArgs_t args[NUM_THREADS];
   
