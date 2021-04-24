@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
         if(rank==0){
             printf("This application is meant to be run with 2 processes.\n");
         }
-        //MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
+    
         MPI_Finalize();
         return EXIT_SUCCESS;
     }
