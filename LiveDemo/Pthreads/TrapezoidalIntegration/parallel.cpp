@@ -35,7 +35,7 @@ void * parallelIntTrap(void * args){
   double * localSum = new double();
   
   if(TID==0){
-    *localSum += (f(a)+f(b))/2.0;
+    *localSum -= (f(a)+f(b))/2.0;
   }
 
   for(long i=startIndex;i<=endIndex;i++){
