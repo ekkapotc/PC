@@ -4,6 +4,12 @@
 #include <iomanip>
 
 #define NUM_THREADS 4
+#define INIT_ARGS(a,b,n,TID) ({\
+                                args[TID].a = a;\
+                                args[TID].b = b;\
+                                args[TID].n = n;\
+                                args[TID].TID = TID;\
+                             })
 
 typedef struct thrArgs{
     double a;
@@ -72,10 +78,7 @@ int main(int argc,char**argv)
   pthread_mutex_init(&mutex, NULL);
   
   for( long TID=0; TID < NUM_THREADS; TID++ ){
-    args[TID].a = a;
-    args[TID].b = b;
-    args[TID].n = n;
-    args[TID].TID = TID;
+    INIT_ARGS(a,b,n,TID);
     pthread_create( &tids[TID],NULL,&parallelIntTrap, static_cast<void*>(&args[TID]) );
   }
 
