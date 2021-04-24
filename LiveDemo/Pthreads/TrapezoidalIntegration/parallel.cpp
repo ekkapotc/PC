@@ -42,10 +42,8 @@ void * parallelIntTrap(void * args){
   }
   
   *localSum = (*localSum)*h;
-  double res = *localSum;
-  delete localSum;
 
-  pthread_exit(reinterpret_cast<void*>(res));  
+  pthread_exit(static_cast<void*>(localSum));  
 }
 
 int main(int argc,char**argv)
@@ -86,8 +84,8 @@ int main(int argc,char**argv)
   
   for(long TID=0;TID<NUM_THREADS;TID++){
     pthread_join(tids[TID],&localSum);
-    globalSum +=  *reinterpret_cast<double*>(localSum); 
-    //delete (static_cast<double*>(localSum));
+    globalSum +=  *static_cast<double*>(localSum); 
+    delete (static_cast<double*>(localSum));
   }
 
   pthread_mutex_destroy(&mutex);
