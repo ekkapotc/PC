@@ -19,7 +19,7 @@ double f(double x)
 
 void * parallelIntTrap(void * args){
     
-  thrArgs_t * info = static_cast<thrArgs*>(args);
+  thrArgs_t * info = static_cast<thrArgs_t*>(args);
   
   long TID = info->TID;
   long n = info->n;
