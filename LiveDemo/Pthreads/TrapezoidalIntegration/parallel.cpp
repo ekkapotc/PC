@@ -28,7 +28,8 @@ typedef struct thrArgs{
 
 double f(double x)
 {
-  return 5.2*x*x+1.2*x+4.8;
+  return x*x;
+  //return 5.2*x*x+1.2*x+4.8;
 }
 
 void * parallelIntTrap(void * args){
