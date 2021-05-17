@@ -73,7 +73,7 @@ int main(int argc,char** argv)
 inspectRank,data);
   
   
-  simpleIntBcast(&data,1,inspectRank,MPI_COMM_WORLD);
+  simpleIntBcast(&data,1,0,MPI_COMM_WORLD);
   
   if(rank==inspectRank)
         printf("Rank %d:\tdata after simpleIntBcast is %d\n",
